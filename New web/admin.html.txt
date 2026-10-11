@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم الإدارية الشاملة | صيدلية د. آية حبيب جاسم</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --admin-bg: #0F172A;
+            --admin-card: #1E293B;
+            --primary: #008080;
+            --accent: #10B981;
+            --text-light: #F8FAFC;
+            --text-gray: #94A3B8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: var(--admin-bg);
+            color: var(--text-light);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Login Screen */
+        .login-box {
+            max-width: 420px;
+            margin: 80px auto;
+            background: var(--admin-card);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #334155;
+            background: #0F172A;
+            color: white;
+        }
+
+        .btn-login {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        /* Admin Dashboard Container */
+        .dashboard {
+            display: none;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--admin-card);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+
+        .admin-nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .admin-btn {
+            background: #334155;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .admin-btn.active, .admin-btn:hover {
+            background: var(--primary);
+        }
+
+        .section-panel {
+            display: none;
+            background: var(--admin-card);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .section-panel.active {
+            display: block;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.85rem;
+            color: var(--text-gray);
+        }
+
+        .input-group input, .input-group textarea, .input-group select {
+            width: 100%;
+            padding: 10px;
+            background: #0F172A;
+            border: 1px solid #334155;
+            color: white;
+            border-radius: 6px;
+        }
+
+        .save-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: right;
+            border-bottom: 1px solid #334155;
+        }
+
+        th {
+            background: #0F172A;
+        }
+
+        .action-btn-del {
+            background: #EF4444;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Login Panel -->
+    <div class="login-box" id="loginPanel">
+        <h2>لوحة إدارة الموقع</h2>
+        <p style="color: var(--text-gray); font-size:0.85rem; margin-bottom:20px;">دخول المدير المسؤول لـ صيدلية phy2li</p>
+        <input type="text" id="adminUser" placeholder="اسم المستخدم (Username)">
+        <input type="password" id="adminPass" placeholder="كلمة المرور (Password)">
+        <button class="btn-login" onclick="login()">تسجيل الدخول</button>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div class="dashboard" id="dashboardPanel">
+        <div class="admin-header">
+            <div>
+                <h2>لوحة التحكم الشاملة والمباشرة</h2>
+                <p style="color: var(--text-gray); font-size:0.85rem;">تعديل كامل نصوص ومعلومات ومحتويات موقع صيدلية د. آية حبيب جاسم</p>
+            </div>
+            <button class="action-btn-del" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> خروج</button>
+        </div>
+
+        <div class="admin-nav">
+            <button class="admin-btn active" onclick="showPanel('info-panel', this)">معلومات النصوص والعناوين</button>
+            <button class="admin-btn" onclick="showPanel('social-panel', this)">وسائل التواصل الاجتماعي</button>
+            <button class="admin-btn" onclick="showPanel('products-panel', this)">إدارة المنتجات والأسعار</button>
+            <button class="admin-btn" onclick="showPanel('skin-panel', this)">قسم مشاكل البشرة</button>
+            <button class="admin-btn" onclick="showPanel('security-panel', this)">أمان الحساب (اليوزر والباسورد)</button>
+        </div>
+
+        <!-- 1. Text & Basic Info Panel -->
+        <div id="info-panel" class="section-panel active">
+            <h3>تعديل نصوص وعناوين الموقع</h3>
+            <div class="form-grid" style="margin-top:15px;">
+                <div class="input-group">
+                    <label>اسم الصيدلية الرئيسي:</label>
+                    <input type="text" id="cfg-pharmacyName">
+                </div>
+                <div class="input-group">
+                    <label>معرف الإنستغرام (Handle):</label>
+                    <input type="text" id="cfg-handle">
+                </div>
+                <div class="input-group">
+                    <label>عنوان البانر الرئيسي (Hero Title):</label>
+                    <input type="text" id="cfg-heroTitle">
+                </div>
+                <div class="input-group">
+                    <label>وصف البانر الرئيسي (Hero Description):</label>
+                    <textarea id="cfg-heroDesc" rows="2"></textarea>
+                </div>
+                <div class="input-group">
+                    <label>ساعات وأوقات العمل:</label>
+                    <input type="text" id="cfg-hours">
+                </div>
+                <div class="input-group">
+                    <label>عنوان وموقع الصيدلية:</label>
+                    <input type="text" id="cfg-address">
+                </div>
+                <div class="input-group">
+                    <label>وصف التذييل (Footer Text):</label>
+                    <textarea id="cfg-footerDesc" rows="2"></textarea>
+                </div>
+            </div>
+            <button class="save-btn" onclick="saveAllSettings()"><i class="fa-solid fa-floppy-disk"></i> حفظ التعديلات فوراً</button>
+        </div>
+
+        <!-- 2. Social Links Panel -->
+        <div id="social-panel" class="section-panel">
+            <h3>تعديل روابط التواصل الاجتماعي والواتساب</h3>
+            <div class="form-grid" style="margin-top:15px;">
+                <div class="input-group">
+                    <label>رقم الواتساب للطلبات (بدون +):</label>
+                    <input type="text" id="cfg-whatsapp" placeholder="مثال: 9647700000000">
+                </div>
+                <div class="input-group">
+                    <label>رقم الاتصال المباشر:</label>
+                    <input type="text" id="cfg-phone">
+                </div>
+                <div class="input-group">
+                    <label>رابط صفحة الإنستغرام:</label>
+                    <input type="text" id="cfg-instagram">
+                </div>
+                <div class="input-group">
+                    <label>رابط صفحة الفيسبوك:</label>
+                    <input type="text" id="cfg-facebook">
+                </div>
+                <div class="input-group">
+                    <label>رابط التيك توك:</label>
+                    <input type="text" id="cfg-tiktok">
+                </div>
+                <div class="input-group">
+                    <label>رابط قنات / حساب التليغرام:</label>
+                    <input type="text" id="cfg-telegram">
+                </div>
+            </div>
+            <button class="save-btn" onclick="saveAllSettings()"><i class="fa-solid fa-floppy-disk"></i> حفظ وروابط التواصل</button>
+        </div>
+
+        <!-- 3. Products Panel -->
+        <div id="products-panel" class="section-panel">
+            <h3>إضافة منتج جديد</h3>
+            <div class="form-grid" style="margin-top:10px;">
+                <div class="input-group">
+                    <label>اسم المنتج:</label>
+                    <input type="text" id="p-title">
+                </div>
+                <div class="input-group">
+                    <label>القسم / التصنيف:</label>
+                    <input type="text" id="p-cat" placeholder="مثال: عناية بالبشرة، مكملات...">
+                </div>
+                <div class="input-group">
+                    <label>السعر (بالدينار العراقي):</label>
+                    <input type="text" id="p-price" placeholder="15,000 د.ع">
+                </div>
+                <div class="input-group">
+                    <label>رابط صورة المنتج (URL):</label>
+                    <input type="text" id="p-img">
+                </div>
+                <div class="input-group" style="grid-column: 1/-1;">
+                    <label>وصف قصير للمنتج:</label>
+                    <input type="text" id="p-desc">
+                </div>
+            </div>
+            <button class="save-btn" style="background:var(--primary);" onclick="addProduct()"><i class="fa-solid fa-plus"></i> إضافة المنتج للمتجر</button>
+
+            <h3 style="margin-top:30px;">المنتجات الحالية بالمتجر</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>المنتج</th>
+                        <th>القسم</th>
+                        <th>السعر</th>
+                        <th>إجراءات</th>
+                    </tr>
+                </thead>
+                <tbody id="productsTable">
+                    <!-- Dynamic Products Table -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 4. Skin Problems Panel -->
+        <div id="skin-panel" class="section-panel">
+            <h3>إضافة نصيحة / مشكلة بشرة وحلها</h3>
+            <div class="form-grid" style="margin-top:10px;">
+                <div class="input-group">
+                    <label>عنوان مشكلة البشرة:</label>
+                    <input type="text" id="s-title" placeholder="مثال: الهالات السوداء">
+                </div>
+                <div class="input-group" style="grid-column: 1/-1;">
+                    <label>الحل والنصيحة الصيدلانية:</label>
+                    <textarea id="s-solution" rows="2" placeholder="أدخلي نصيحة دكتورة آية للعلاج..."></textarea>
+                </div>
+            </div>
+            <button class="save-btn" style="background:var(--primary);" onclick="addSkinProblem()"><i class="fa-solid fa-plus"></i> إضافة قسم المشكلة</button>
+
+            <h3 style="margin-top:30px;">المشاكل والنصائح الحالية</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>المشكلة</th>
+                        <th>الحل والملاحظات</th>
+                        <th>حذف</th>
+                    </tr>
+                </thead>
+                <tbody id="skinTable">
+                    <!-- Dynamic Skin Table -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 5. Security Panel -->
+        <div id="security-panel" class="section-panel">
+            <h3>تغير بيانات تسجيل الدخول لمدير الموقع</h3>
+            <div class="form-grid" style="margin-top:15px; max-width: 500px;">
+                <div class="input-group">
+                    <label>اسم المستخدم الجديد (Username):</label>
+                    <input type="text" id="cfg-username">
+                </div>
+                <div class="input-group">
+                    <label>كلمة المرور الجديدة (Password):</label>
+                    <input type="password" id="cfg-password">
+                </div>
+            </div>
+            <button class="save-btn" onclick="saveSecurity()"><i class="fa-solid fa-key"></i> تحديث اسم المستخدم والباسورد</button>
+        </div>
+
+    </div>
+
+    <script>
+        const defaultData = {
+            username: "admin",
+            password: "123",
+            pharmacyName: "صيدلية د. آية حبيب جاسم",
+            handle: "@phy2li",
+            heroTitle: "صيدلية د. آية حبيب جاسم",
+            heroDesc: "نعتني بصحتك وجمالك بأفضل المنتجات الطبية والعناية بالبشرة المضمونة والموثوقة.",
+            phone: "+9647700000000",
+            whatsapp: "9647700000000",
+            instagram: "https://instagram.com/phy2li",
+            facebook: "",
+            tiktok: "",
+            telegram: "",
+            hours: "يومياً 9:00 ص - 10:00 م",
+            address: "بعقوبة - بهرز - مقابل مدرسة العراق الجديد",
+            footerDesc: "صيدليتكم الموثوقة لتوفير العلاجات الطبية ومستلزمات العناية بالبشرة.",
+            products: [
+                { id: 1, title: "غسول PanOxyl 10%", category: "عناية بالبشرة", price: "18,000 د.ع", desc: "غسول لحب الشباب ذو فاعلية فائقة برغوة رغوية.", img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=500&q=80" },
+                { id: 2, title: "معجون Pasta del Capitano", category: "عناية بالفم", price: "6,000 د.ع", desc: "معجون أسنان إيطالي لتبييض وحماية اللثة.", img: "https://images.unsplash.com/photo-1559598467-f8b76c8155d0?auto=format&fit=crop&w=500&q=80" }
+            ],
+            skinProblems: [
+                { id: 1, title: "حب الشباب والمسامات الواسعة", solution: "استخدام غسول يحتوي على البنزويل بيروكسيد أو حمض الساليسايلك مع مرطب خفيف خالي من الزيوت." }
+            ]
+        };
+
+        function getStoredData() {
+            const data = localStorage.getItem('phy2li_store_data');
+            return data ? JSON.parse(data) : defaultData;
+        }
+
+        let storeData = getStoredData();
+
+        function login() {
+            const u = document.getElementById('adminUser').value;
+            const p = document.getElementById('adminPass').value;
+
+            if(u === (storeData.username || "admin") && p === (storeData.password || "123")) {
+                document.getElementById('loginPanel').style.display = 'none';
+                document.getElementById('dashboardPanel').style.display = 'block';
+                loadAdminData();
+            } else {
+                alert("اسم المستخدم أو كلمة المرور غير صحيحة!");
+            }
+        }
+
+        function logout() {
+            document.getElementById('loginPanel').style.display = 'block';
+            document.getElementById('dashboardPanel').style.display = 'none';
+        }
+
+        function showPanel(panelId, btn) {
+            document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.admin-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(panelId).classList.add('active');
+            btn.classList.add('active');
+        }
+
+        function loadAdminData() {
+            document.getElementById('cfg-pharmacyName').value = storeData.pharmacyName || '';
+            document.getElementById('cfg-handle').value = storeData.handle || '';
+            document.getElementById('cfg-heroTitle').value = storeData.heroTitle || '';
+            document.getElementById('cfg-heroDesc').value = storeData.heroDesc || '';
+            document.getElementById('cfg-hours').value = storeData.hours || '';
+            document.getElementById('cfg-address').value = storeData.address || '';
+            document.getElementById('cfg-footerDesc').value = storeData.footerDesc || '';
+
+            document.getElementById('cfg-whatsapp').value = storeData.whatsapp || '';
+            document.getElementById('cfg-phone').value = storeData.phone || '';
+            document.getElementById('cfg-instagram').value = storeData.instagram || '';
+            document.getElementById('cfg-facebook').value = storeData.facebook || '';
+            document.getElementById('cfg-tiktok').value = storeData.tiktok || '';
+            document.getElementById('cfg-telegram').value = storeData.telegram || '';
+
+            document.getElementById('cfg-username').value = storeData.username || 'admin';
+            document.getElementById('cfg-password').value = storeData.password || '123';
+
+            renderProductsTable();
+            renderSkinTable();
+        }
+
+        function saveAllSettings() {
+            storeData.pharmacyName = document.getElementById('cfg-pharmacyName').value;
+            storeData.handle = document.getElementById('cfg-handle').value;
+            storeData.heroTitle = document.getElementById('cfg-heroTitle').value;
+            storeData.heroDesc = document.getElementById('cfg-heroDesc').value;
+            storeData.hours = document.getElementById('cfg-hours').value;
+            storeData.address = document.getElementById('cfg-address').value;
+            storeData.footerDesc = document.getElementById('cfg-footerDesc').value;
+
+            storeData.whatsapp = document.getElementById('cfg-whatsapp').value;
+            storeData.phone = document.getElementById('cfg-phone').value;
+            storeData.instagram = document.getElementById('cfg-instagram').value;
+            storeData.facebook = document.getElementById('cfg-facebook').value;
+            storeData.tiktok = document.getElementById('cfg-tiktok').value;
+            storeData.telegram = document.getElementById('cfg-telegram').value;
+
+            localStorage.setItem('phy2li_store_data', JSON.stringify(storeData));
+            alert("تم حفظ التعديلات بنجاح! ستظهر فوراً للزبائن بالموقع.");
+        }
+
+        function saveSecurity() {
+            storeData.username = document.getElementById('cfg-username').value;
+            storeData.password = document.getElementById('cfg-password').value;
+            localStorage.setItem('phy2li_store_data', JSON.stringify(storeData));
+            alert("تم تغيير اسم المستخدم وكلمة المرور بنجاح.");
+        }
+
+        function renderProductsTable() {
+            const tbody = document.getElementById('productsTable');
+            tbody.innerHTML = '';
+            storeData.products.forEach(p => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${p.title}</td>
+                        <td>${p.category}</td>
+                        <td>${p.price}</td>
+                        <td><button class="action-btn-del" onclick="deleteProduct(${p.id})">حذف</button></td>
+                    </tr>
+                `;
+            });
+        }
+
+        function addProduct() {
+            const title = document.getElementById('p-title').value;
+            const category = document.getElementById('p-cat').value;
+            const price = document.getElementById('p-price').value;
+            const img = document.getElementById('p-img').value;
+            const desc = document.getElementById('p-desc').value;
+
+            if(!title || !price) {
+                alert("يرجى أدخال اسم المنتج والسعر على الأقل");
+                return;
+            }
+
+            const newProd = {
+                id: Date.now(),
+                title,
+                category: category || "عام",
+                price,
+                img,
+                desc
+            };
+
+            storeData.products.push(newProd);
+            localStorage.setItem('phy2li_store_data', JSON.stringify(storeData));
+            renderProductsTable();
+            alert("تمت إضافة المنتج بنجاح!");
+        }
+
+        function deleteProduct(id) {
+            storeData.products = storeData.products.filter(p => p.id !== id);
+            localStorage.setItem('phy2li_store_data', JSON.stringify(storeData));
+            renderProductsTable();
+        }
+
+        function renderSkinTable() {
+            const tbody = document.getElementById('skinTable');
+            tbody.innerHTML = '';
+            storeData.skinProblems.forEach(s => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${s.title}</td>
+                        <td>${s.solution}</td>
+                        <td><button class="action-btn-del" onclick="deleteSkin(${s.id})">حذف</button></td>
+                    </tr>
+                `;
+            });
+        }
+
+        function addSkinProblem() {
+            const title = document.getElementById('s-title').value;
+            const solution = document.getElementById('s-solution').value;
+
+            if(!title || !solution) {
+                alert("يرجى ملء جميع الحقول");
+                return;
+            }
+
+            storeData.skinProblems.push({ id: Date.now(), title, solution });
+            localStorage.setItem('phy2li_store_data', JSON.stringify(storeData));
+            renderSkinTable();
+            alert("تمت الإضافة بنجاح!");
+        }
+
+        function deleteSkin(id) {
+            storeData.skinProblems = storeData.skinProblems.filter(s => s.id !== id);
+            localStorage.setItem('phy2li_store_data', JSON.stringify(storeData));
+            renderSkinTable();
+        }
+    </script>
+</body>
+</html>

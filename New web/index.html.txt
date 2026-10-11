@@ -1,0 +1,741 @@
+
+
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="site-title-tag">صيدلية د. آية حبيب جاسم | phy2li</title>
+    <!-- Cairo Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #008080;
+            --primary-dark: #005959;
+            --secondary: #10B981;
+            --accent: #0284C7;
+            --bg-light: #F8FAFC;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+            --white: #FFFFFF;
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+            --radius: 16px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding-bottom: 80px;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            background-color: var(--primary-dark);
+            color: white;
+            padding: 8px 5%;
+            font-size: 0.85rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .social-links-top a {
+            color: white;
+            margin-left: 12px;
+            font-size: 1rem;
+            transition: color 0.3s;
+            text-decoration: none;
+        }
+
+        .social-links-top a:hover {
+            color: var(--secondary);
+        }
+
+        /* Header */
+        header {
+            background: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-dark);
+        }
+
+        .brand-logo {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .brand-text h1 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .brand-text p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+            cursor: pointer;
+            padding: 8px 12px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            background-color: rgba(0, 128, 128, 0.08);
+            color: var(--primary);
+        }
+
+        .cart-icon-btn {
+            position: relative;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+        }
+
+        .cart-count {
+            background: red;
+            color: white;
+            border-radius: 50%;
+            padding: 2px 7px;
+            font-size: 0.75rem;
+        }
+
+        /* Container Pages */
+        .container {
+            max-width: 1200px;
+            margin: 25px auto;
+            padding: 0 20px;
+        }
+
+        .page-tab {
+            display: none;
+        }
+
+        .page-tab.active {
+            display: block;
+        }
+
+        /* Hero Banner */
+        .hero {
+            background: linear-gradient(135deg, rgba(0,128,128,0.9), rgba(16,185,129,0.8)), url('https://images.unsplash.com/photo-1586015555751-63bb77f4322a?auto=format&fit=crop&w=1200&q=80') center/cover;
+            color: white;
+            border-radius: var(--radius);
+            padding: 50px 30px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .hero h2 {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+            max-width: 700px;
+            margin: 0 auto 25px;
+        }
+
+        /* Product Cards & Filters */
+        .categories-bar {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+        }
+
+        .cat-btn {
+            background: white;
+            border: 1px solid #E2E8F0;
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: 0.3s;
+        }
+
+        .cat-btn.active, .cat-btn:hover {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 25px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #f1f5f9;
+        }
+
+        .product-info {
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-category {
+            font-size: 0.75rem;
+            color: var(--primary);
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .product-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin: 6px 0;
+            color: var(--text-dark);
+        }
+
+        .product-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            flex-grow: 1;
+        }
+
+        .product-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .product-price {
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--primary-dark);
+        }
+
+        .add-to-cart-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .add-to-cart-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        /* Skin Problems Section */
+        .skin-section-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .skin-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .skin-card {
+            background: white;
+            padding: 25px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border-top: 4px solid var(--secondary);
+        }
+
+        .skin-card h3 {
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Form styling */
+        .custom-form {
+            background: white;
+            padding: 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #CBD5E1;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 40px 5% 20px;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-socials a {
+            color: white;
+            background: rgba(255,255,255,0.1);
+            width: 38px;
+            height: 38px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin-left: 8px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .footer-socials a:hover {
+            background: var(--secondary);
+        }
+
+        .copyright {
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 20px;
+            font-size: 0.9rem;
+            color: #94A3B8;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: flex;
+                overflow-x: auto;
+                width: 100%;
+                padding: 10px 0;
+            }
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div>
+            <i class="fa-solid fa-clock"></i> <span id="display-hours">أوقات العمل: يومياً 9:00 ص - 10:00 م</span> | 
+            <i class="fa-solid fa-location-dot"></i> <span id="display-address">بعقوبة - بهرز - مقابل مدرسة العراق الجديد</span>
+        </div>
+        <div class="social-links-top" id="top-socials">
+            <!-- Dynamic Socials -->
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="navbar">
+            <a href="#" class="brand">
+                <div class="brand-logo"><i class="fa-solid fa-prescription-bottle-medical"></i></div>
+                <div class="brand-text">
+                    <h1 id="display-pharmacy-name">صيدلية د. آية حبيب جاسم</h1>
+                    <p id="display-pharmacy-handle">@phy2li</p>
+                </div>
+            </a>
+            <ul class="nav-menu">
+                <li><a class="nav-link active" onclick="switchTab('store-tab', this)">المتجر والمنتجات</a></li>
+                <li><a class="nav-link" onclick="switchTab('skin-tab', this)">مشاكل بشرتكم</a></li>
+                <li><a class="nav-link" onclick="switchTab('request-tab', this)">طلب توفير منتج</a></li>
+                <li><a class="nav-link" onclick="switchTab('prescription-tab', this)">إرسال وصفة</a></li>
+            </ul>
+            <button class="cart-icon-btn" onclick="openCart()">
+                <i class="fa-solid fa-cart-shopping"></i> السلة
+                <span class="cart-count" id="cart-count">0</span>
+            </button>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <!-- Tab 1: Store Front -->
+        <div id="store-tab" class="page-tab active">
+            <div class="hero">
+                <h2 id="display-hero-title">صيدلية د. آية حبيب جاسم</h2>
+                <p id="display-hero-desc">نعتني بصحتك وجمالك بأفضل المنتجات الطبية والعناية بالبشرة المضمونة والموثوقة.</p>
+            </div>
+
+            <div class="categories-bar" id="category-buttons">
+                <button class="cat-btn active" onclick="filterCategory('all', this)">الكل</button>
+            </div>
+
+            <div class="products-grid" id="products-container">
+                <!-- Dynamic Products Load -->
+            </div>
+        </div>
+
+        <!-- Tab 2: Skin Problems -->
+        <div id="skin-tab" class="page-tab">
+            <div class="skin-section-title">
+                <h2 style="color: var(--primary-dark);">دليل حلول ومشاكل البشرة</h2>
+                <p style="color: var(--text-muted);">تعرفي على مشكلة بشرتك والحل العلمي المناسب لها من دكتورة آية</p>
+            </div>
+            <div class="skin-grid" id="skin-problems-container">
+                <!-- Dynamic Skin Content -->
+            </div>
+        </div>
+
+        <!-- Tab 3: Request Product -->
+        <div id="request-tab" class="page-tab">
+            <div class="custom-form">
+                <h2 style="text-align: center; color: var(--primary-dark); margin-bottom: 10px;">طلب توفير علاج أو منتج جديد</h2>
+                <p style="text-align: center; color: var(--text-muted); margin-bottom: 25px;">هل تبحث عن علاج أو منتج غير متوفر؟ اكتب تفاصيله وسنقوم بتوفيره لك فوراً.</p>
+                <form id="requestForm" onsubmit="sendProductRequest(event)">
+                    <div class="form-group">
+                        <label>الاسم الكامل:</label>
+                        <input type="text" id="req-name" class="form-control" placeholder="أدخل اسمك" required>
+                    </div>
+                    <div class="form-group">
+                        <label>اسم الدواء أو المنتج المطلوب:</label>
+                        <input type="text" id="req-product" class="form-control" placeholder="مثال: مكمل زنك، دواء محدد..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>ملاحظات إضافية (التركيز/الحجم):</label>
+                        <textarea id="req-notes" class="form-control" rows="3" placeholder="أي تفاصيل أخرى توضح الطلب"></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn"><i class="fa-brands fa-whatsapp"></i> إرسال الطلب عبر الواتساب</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Tab 4: Send Prescription -->
+        <div id="prescription-tab" class="page-tab">
+            <div class="custom-form">
+                <h2 style="text-align: center; color: var(--primary-dark); margin-bottom: 10px;">إرسال واستشارة وصفة طبية</h2>
+                <p style="text-align: center; color: var(--text-muted); margin-bottom: 25px;">تواصل مباشرة مع الصيدلانية للاستفسار عن أسعار وتوفر علاجات الوصفة.</p>
+                <form onsubmit="sendPrescription(event)">
+                    <div class="form-group">
+                        <label>اسمك الكريـم:</label>
+                        <input type="text" id="pres-name" class="form-control" placeholder="اسم المراجع" required>
+                    </div>
+                    <div class="form-group">
+                        <label>تفاصيل الوصفة أو الاستفسار:</label>
+                        <textarea id="pres-text" class="form-control" rows="4" placeholder="اكتب أسماء الأدوية أو الاستفسار عن حالتك الصحية..." required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn"><i class="fa-brands fa-whatsapp"></i> إرسال الاستشارة للصيدلانية</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div>
+                <h3 id="display-footer-name" style="margin-bottom: 10px;">صيدلية د. آية حبيب جاسم</h3>
+                <p id="display-footer-desc" style="font-size: 0.9rem; color: #CBD5E1;">صيدليتكم الموثوقة لتوفير العلاجات الطبية، المستلزمات العناية بالبشرة، والاستشارات الصيدلانية التخصصية.</p>
+            </div>
+            <div>
+                <h4>تواصل معنا</h4>
+                <p style="font-size: 0.9rem; margin-top: 8px;"><i class="fa-solid fa-phone"></i> <span id="display-phone">+9647700000000</span></p>
+                <div class="footer-socials" id="footer-socials" style="margin-top: 15px;">
+                    <!-- Dynamic Icons -->
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            جميع الحقوق محفوظة لدى صيدلية د. آية حبيب جاسم
+        </div>
+    </footer>
+
+    <script>
+        // Data Sync with Admin LocalStorage
+        const defaultData = {
+            pharmacyName: "صيدلية د. آية حبيب جاسم",
+            handle: "@phy2li",
+            heroTitle: "صيدلية د. آية حبيب جاسم",
+            heroDesc: "نعتني بصحتك وجمالك بأفضل المنتجات الطبية والعناية بالبشرة المضمونة والموثوقة.",
+            phone: "+9647700000000",
+            whatsapp: "9647700000000",
+            instagram: "https://instagram.com/phy2li",
+            facebook: "",
+            tiktok: "",
+            telegram: "",
+            hours: "يومياً 9:00 ص - 10:00 م",
+            address: "بعقوبة - بهرز - مقابل مدرسة العراق الجديد",
+            footerDesc: "صيدليتكم الموثوقة لتوفير العلاجات الطبية ومستلزمات العناية بالبشرة.",
+            products: [
+                { id: 1, title: "غسول PanOxyl 10%", category: "عناية بالبشرة", price: "18,000 د.ع", desc: "غسول لحب الشباب ذو فاعلية فائقة برغوة رغوية.", img: "https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=500&q=80" },
+                { id: 2, title: "معجون Pasta del Capitano", category: "عناية بالفم", price: "6,000 د.ع", desc: "معجون أسنان إيطالي لتبييض وحماية اللثة.", img: "https://images.unsplash.com/photo-1559598467-f8b76c8155d0?auto=format&fit=crop&w=500&q=80" },
+                { id: 3, title: "Collmejoint مكمل مفاصل", category: "مكملات غذائية", price: "25,000 د.ع", desc: "كولاجين متخصص لدعم صحة المفاصل والغضاريف.", img: "https://images.unsplash.com/photo-1584017911766-d451b3d0e843?auto=format&fit=crop&w=500&q=80" }
+            ],
+            skinProblems: [
+                { id: 1, title: "حب الشباب والمسامات الواسعة", solution: "استخدام غسول يحتوي على البنزويل بيروكسيد أو حمض الساليسايلك مع مرطب خفيف خالي من الزيوت." },
+                { id: 2, title: "التصبغات والبقع الداكنة", solution: "سيروم سيروم فيتامين C صباحاً مع سيروم سيروم ريتينول أو حمض الكوجيك ليلاً والتزام تام بواقي الشمس." },
+                { id: 3, title: "الجفاف وتضرر الحاجز واقي البشرة", solution: "الاعتماد على سيروم الهيالورونيك أسيد وكريمات تحتوى على السيراميد وتجنب المقشرات القوية." }
+            ]
+        };
+
+        function getStoredData() {
+            const data = localStorage.getItem('phy2li_store_data');
+            return data ? JSON.parse(data) : defaultData;
+        }
+
+        let storeData = getStoredData();
+        let cart = [];
+
+        function renderSite() {
+            // Bind Texts
+            document.getElementById('display-pharmacy-name').innerText = storeData.pharmacyName;
+            document.getElementById('display-pharmacy-handle').innerText = storeData.handle;
+            document.getElementById('display-hero-title').innerText = storeData.heroTitle;
+            document.getElementById('display-hero-desc').innerText = storeData.heroDesc;
+            document.getElementById('display-hours').innerText = 'أوقات العمل: ' + storeData.hours;
+            document.getElementById('display-address').innerText = storeData.address;
+            document.getElementById('display-phone').innerText = storeData.phone;
+            document.getElementById('display-footer-name').innerText = storeData.pharmacyName;
+            document.getElementById('display-footer-desc').innerText = storeData.footerDesc;
+
+            // Render Social Icons
+            const topSoc = document.getElementById('top-socials');
+            const footSoc = document.getElementById('footer-socials');
+            topSoc.innerHTML = '';
+            footSoc.innerHTML = '';
+
+            const socs = [
+                { link: storeData.instagram, icon: 'fa-instagram' },
+                { link: 'https://wa.me/' + storeData.whatsapp, icon: 'fa-whatsapp' },
+                { link: storeData.facebook, icon: 'fa-facebook' },
+                { link: storeData.tiktok, icon: 'fa-tiktok' },
+                { link: storeData.telegram, icon: 'fa-telegram' }
+            ];
+
+            socs.forEach(s => {
+                if(s.link && s.link !== "https://wa.me/") {
+                    topSoc.innerHTML += `<a href="${s.link}" target="_blank"><i class="fa-brands ${s.icon}"></i></a>`;
+                    footSoc.innerHTML += `<a href="${s.link}" target="_blank"><i class="fa-brands ${s.icon}"></i></a>`;
+                }
+            });
+
+            // Render Categories
+            const categories = ['الكل', ...new Set(storeData.products.map(p => p.category))];
+            const catContainer = document.getElementById('category-buttons');
+            catContainer.innerHTML = '';
+            categories.forEach((cat, idx) => {
+                catContainer.innerHTML += `<button class="cat-btn ${idx===0?'active':''}" onclick="filterCategory('${cat}', this)">${cat}</button>`;
+            });
+
+            // Render Products
+            renderProducts(storeData.products);
+
+            // Render Skin Problems
+            const skinContainer = document.getElementById('skin-problems-container');
+            skinContainer.innerHTML = '';
+            storeData.skinProblems.forEach(item => {
+                skinContainer.innerHTML += `
+                    <div class="skin-card">
+                        <h3><i class="fa-solid fa-sparkles" style="color:var(--secondary);"></i> ${item.title}</h3>
+                        <p style="color:var(--text-muted); font-size:0.95rem;"><strong>الحل والنصيحة الصيدلانية:</strong> ${item.solution}</p>
+                    </div>
+                `;
+            });
+        }
+
+        function renderProducts(items) {
+            const container = document.getElementById('products-container');
+            container.innerHTML = '';
+            if(items.length === 0) {
+                container.innerHTML = '<p style="grid-column:1/-1; text-align:center;">لا توجد منتجات حالياً.</p>';
+                return;
+            }
+            items.forEach(p => {
+                container.innerHTML += `
+                    <div class="product-card">
+                        <img src="${p.img || 'https://via.placeholder.com/300'}" class="product-img" alt="${p.title}">
+                        <div class="product-info">
+                            <span class="product-category">${p.category}</span>
+                            <h3 class="product-title">${p.title}</h3>
+                            <p class="product-desc">${p.desc}</p>
+                            <div class="product-bottom">
+                                <span class="product-price">${p.price}</span>
+                                <button class="add-to-cart-btn" onclick="addToCart('${p.title}', '${p.price}')"><i class="fa-solid fa-cart-plus"></i> إضافة</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function filterCategory(category, btn) {
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            if(category === 'الكل' || category === 'all') {
+                renderProducts(storeData.products);
+            } else {
+                const filtered = storeData.products.filter(p => p.category === category);
+                renderProducts(filtered);
+            }
+        }
+
+        function switchTab(tabId, element) {
+            document.querySelectorAll('.page-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            element.classList.add('active');
+        }
+
+        function addToCart(title, price) {
+            cart.push({ title, price });
+            document.getElementById('cart-count').innerText = cart.length;
+            alert(`تمت إضافة "${title}" إلى سلة التسوق`);
+        }
+
+        function openCart() {
+            if(cart.length === 0) {
+                alert("سلة التسوق فارغة حالياً!");
+                return;
+            }
+            let text = `مرحباً دكتورة آية، أود طلب المواد التالية من الصيدلية:\n\n`;
+            cart.forEach((item, index) => {
+                text += `${index+1}. ${item.title} (${item.price})\n`;
+            });
+            const url = `https://wa.me/${storeData.whatsapp}?text=${encodeURIComponent(text)}`;
+            window.open(url, '_blank');
+        }
+
+        function sendProductRequest(e) {
+            e.preventDefault();
+            const name = document.getElementById('req-name').value;
+            const prod = document.getElementById('req-product').value;
+            const notes = document.getElementById('req-notes').value;
+            const msg = `طلب توفير منتج جديد:\nالاسم: ${name}\nالمنتج المطلوب: ${prod}\nملاحظات: ${notes}`;
+            window.open(`https://wa.me/${storeData.whatsapp}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function sendPrescription(e) {
+            e.preventDefault();
+            const name = document.getElementById('pres-name').value;
+            const text = document.getElementById('pres-text').value;
+            const msg = `استشارة/وصفة طبية جديدة:\nالاسم: ${name}\nتفاصيل العلاج: ${text}`;
+            window.open(`https://wa.me/${storeData.whatsapp}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        window.onload = renderSite;
+    </script>
+</body>
+</html>
